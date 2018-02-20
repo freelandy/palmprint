@@ -24,8 +24,8 @@ train = pd.read_csv('matrain.csv')
 X = train[[str(i) for i in range(4096)]].values
 Y = train['label'].values
 test = pd.read_csv('matest.csv')
-X_test = train[[str(i) for i in range(4096)]].values
-Y_test = train['label'].values
+X_test = test[[str(i) for i in range(4096)]].values
+Y_test = test['label'].values
 
 #
 model = SVC(C=1.0,kernel='poly')
