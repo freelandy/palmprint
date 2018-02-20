@@ -3,12 +3,7 @@ import numpy as np
 from sklearn.metrics import accuracy_score
 from sklearn.model_selection import train_test_split
 from sklearn.svm import SVC
-from pySOT import *
-from poap.controller import SerialController, ThreadController, BasicWorkerThread
-from sklearn.neighbors import KNeighborsClassifier
-from poap.controller import BasicWorkerThread
-from sklearn.ensemble import VotingClassifier
-from sklearn.neural_network import MLPClassifier
+
 
 
 def get_feature(vector, features):
@@ -24,37 +19,39 @@ def all_zero(col):
     return True
 
 
-# train = pd.read_csv('matrain.csv')
+train = pd.read_csv('matrain.csv')
+
+X = train[[str(i) for i in range(4096)]].values
+Y = train['label'].values
+test = pd.read_csv('matest.csv')
+X_test = train[[str(i) for i in range(4096)]].values
+Y_test = train['label'].values
+
 #
-# X = train[[str(i) for i in range(4096)]].values
-# Y = train['label'].values
-# test = pd.read_csv('matest.csv')
-# X_test = train[[str(i) for i in range(4096)]].values
-# Y_test = train['label'].values
+model = SVC(C=1.0,kernel='poly')
+
+model.fit(X, Y)
+print('Accuracy:', accuracy_score(Y_test, model.predict(X_test)))
+
+
 #
-
-# model = SVC(C=1.0,kernel='poly')
 #
-# model.fit(X, Y)
-# print('Accuracy:', accuracy_score(Y_test, model.predict(X_test)))
-
-
-data = pd.read_csv('features1.csv')
-train = []
-test = []
-for i in range(386):
-    ds = data[data['label'] == i]
-    dtr = ds.iloc[:5]
-    dte = ds.iloc[5:7]
-    for value in dtr.values:
-        train.append(value)
-    for value in dte.values:
-        test.append(value)
-
-train = pd.DataFrame(data=train, columns=[str(i) for i in range(4096)] + ['label'])
-test = pd.DataFrame(data=test, columns=[str(i) for i in range(4096)] + ['label'])
-print(train.to_csv('matrain1.csv', index=False))
-print(test.to_csv('matest1.csv', index=False))
+# data = pd.read_csv('features1.csv')
+# train = []
+# test = []
+# for i in range(386):
+#     ds = data[data['label'] == i]
+#     dtr = ds.iloc[:5]
+#     dte = ds.iloc[5:7]
+#     for value in dtr.values:
+#         train.append(value)
+#     for value in dte.values:
+#         test.append(value)
+#
+# train = pd.DataFrame(data=train, columns=[str(i) for i in range(4096)] + ['label'])
+# test = pd.DataFrame(data=test, columns=[str(i) for i in range(4096)] + ['label'])
+# print(train.to_csv('matrain1.csv', index=False))
+# print(test.to_csv('matest1.csv', index=False))
 
 
 # data = pd.read_csv('features.csv')
